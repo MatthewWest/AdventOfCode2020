@@ -1,7 +1,7 @@
 using BenchmarkTools
 
 function get_input()
-    readlines("day9input.txt") |> lines -> map(l->parse(Int, l), lines)
+    parse.(Int, eachline("day9input.txt"))
 end
 
 function valid_next(window::Set{Int}, next::Int)::Bool
@@ -28,19 +28,19 @@ function part1(nums, window_size)
 end
 
 function part2(nums, target)
-    left, right = 1, 2
     n = length(nums)
-    while right < n
-        range = @view nums[left:right]        
-        total = sum(range)
-        if total < target
-            right += 1
-        elseif total > target
-            left += 1
+    left, right = n-1, n
+    runningsum = nums[left] + nums[right]
+    while runningsum != target
+        if runningsum < target
+            left -= 1
+            runningsum += nums[left]
         else
-            return sum(extrema(range))
+            runningsum -= nums[right]
+            right -= 1
         end
     end
+    sum(extrema(@view nums[left:right]))
 end
 
 println("Parsing time:")
