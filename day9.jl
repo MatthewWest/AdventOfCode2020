@@ -1,3 +1,5 @@
+using BenchmarkTools
+
 function get_input()
     readlines("day9input.txt") |> lines -> map(l->parse(Int, l), lines)
 end
@@ -36,18 +38,7 @@ function part2(nums, target)
         elseif total > target
             left += 1
         else
-            return minimum(range) + maximum(range)
-        end
-    end
-    for i ∈ 1:(length(nums)-1)
-        for j ∈ i:length(nums)
-            range = @view nums[i:j]
-            total = sum(range)
-            if total == target
-                return minimum(range) + maximum(range)
-            elseif total > target
-                break
-            end
+            return sum(extrema(range))
         end
     end
 end
