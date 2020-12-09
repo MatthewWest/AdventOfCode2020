@@ -1,4 +1,6 @@
-nums = readlines("day9input.txt") |> lines -> map(l->parse(Int, l), lines)
+function get_input()
+    readlines("day9input.txt") |> lines -> map(l->parse(Int, l), lines)
+end
 
 function valid_next(window::Set{Int}, next::Int)::Bool
     for num ∈ window
@@ -50,9 +52,17 @@ function part2(nums, target)
     end
 end
 
+println("Parsing time:")
+nums = @btime get_input()
 println("Part 1:")
 answer1 = @btime part1(nums, 25)
 println(answer1)
 println("Part 2:")
 answer2 = @btime part2(nums, answer1)
 println(answer2)
+
+function solve_all()
+    nums = get_input()
+    answer1 = part1(nums, 25)
+    answer2 = part2(nums, answer1)
+end
