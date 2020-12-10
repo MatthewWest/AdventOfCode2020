@@ -12,30 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-input = readlines("day1input.txt")
-nums = map(s->parse(Int, s), input)
+raw_input = open(f->read(f, String), "day06input.txt")
 
-function part1(nums)
-    for i=1:length(nums)-1
-        for j=(i+1):length(nums)
-            if nums[i] + nums[j] == 2020
-                return nums[i] * nums[j]
-            end
-        end
-    end
+function unique_letters(group)
+    length(unique(filter(c->(c>='a' && c <= 'z'), group)))
 end
 
-function part2(nums)
-    for i=1:length(nums)-2
-        for j=(i+1):length(nums)-1
-            for k=(j+1):length(nums)
-                if nums[i] + nums[j] + nums[k] == 2020
-                    return nums[i] * nums[j] * nums[k]
-                end
-            end
+part1(raw_input) = split(raw_input, "\n\n") |> groups->map(unique_letters, groups) |> sum
+
+function consensus_letters(group)
+    members = split(group)
+    total = 0
+    for question ∈ 'a':'z'
+        if all(m->contains(m, question), members)
+            total += 1
         end
     end
+    return total
 end
 
-part1(nums)
-part2(nums)
+part2(raw_input) = split(raw_input, "\n\n") |> groups->map(consensus_letters, groups) |> sum
+
+println("Part 1: ", part1(raw_input))
+println("Part 2: ", part2(raw_input))
