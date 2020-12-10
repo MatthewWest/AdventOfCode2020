@@ -8,8 +8,6 @@ function part1(filename = "day10input.txt")
     one_jumps = count(x->x==1, diffs)
     three_jumps = count(x->x==3, diffs)
     length(diffs)
-    println("One jumps: ", one_jumps)
-    println("Three jumps: ", three_jumps)
     return one_jumps * three_jumps
 end
 
@@ -27,14 +25,16 @@ function number_of_ways(voltages::AbstractArray{Int})
                 break
             end
         end
+        # We're at an end and there's only one adjacent number
         if group_size == 1
             return number_of_ways(@view voltages[2:end])
+        # Each is attached to 3-jumps on the ends
         elseif group_size == 2
             return number_of_ways(@view voltages[3:end])
-        # One degree of freedom (populate or don't populate the middle one)
+        # One bit (populate or don't populate the middle one)
         elseif group_size == 3
             return 2 * number_of_ways(@view voltages[4:end])
-        # Two degrees of freedom (middle can be present or absent)
+        # Two bits (middle 2 can be present or absent)
         elseif group_size == 4
             return 4 * number_of_ways(@view voltages[5:end])
         # Would be 3 bits, except that at least one of the middle ones must be populated
