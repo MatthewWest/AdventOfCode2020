@@ -1,4 +1,4 @@
-function part1(filename = "day9input.txt")
+function part1(filename = "day10input.txt")
     input = parse.(Int, eachline(filename))
 
     sorted = sort(input)
@@ -8,8 +8,8 @@ function part1(filename = "day9input.txt")
     one_jumps = count(x->x==1, diffs)
     three_jumps = count(x->x==3, diffs)
     length(diffs)
-    println("One jumps:", one_jumps)
-    println("Three jumps", three_jumps)
+    println("One jumps: ", one_jumps)
+    println("Three jumps: ", three_jumps)
     return one_jumps * three_jumps
 end
 
@@ -60,7 +60,7 @@ function kinds_of_groupings(sorted)
     return consecutive_groupings
 end
 
-function part2(filename = "day9input.txt")
+function part2(filename = "day10input.txt")
     sorted = parse.(Int, eachline(filename)) |> sort
     sorted = vcat([0], sorted, [sorted[end]])
     number_of_ways(sorted)
