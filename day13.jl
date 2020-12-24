@@ -22,16 +22,13 @@ end
 
 function getbuses(filename)
     bus_strings = readlines(filename)[2] |> line -> split(line, ',')
-    buses = empty(bus_strings, Bus)
+    buses = Bus[]
     offset = 0
     for bus_string ∈ bus_strings
-        if bus_string == "x"
-            offset += 1
-            continue
-        else
+        if bus_string != "x"
             push!(buses, Bus(parse(Int, bus_string), offset))
-            offset += 1
         end
+        offset += 1
     end
     return buses
 end
@@ -46,7 +43,6 @@ function number_that_fit(buses::AbstractVector{Bus}, t::Int)
         else
             break
         end
-        next += 1
     end
     return nfit
 end
@@ -54,7 +50,7 @@ end
 function part2(filename="day13input.txt")
     buses = getbuses(filename)
     n = length(buses)
-    
+
     ids = map(b->b.id, buses)
     t = buses[1].id + buses[1].offset
     amount_to_add_by = buses[1].id
@@ -64,7 +60,7 @@ function part2(filename="day13input.txt")
         if nfit == n
             return t
         elseif nfit > max_nfit
-            amount_to_add_by = lcm(ids[1:nfit])
+            amount_to_add_by = lcm(amount_to_add_by, ids[nfit])
             max_nfit = nfit
         end
         t += amount_to_add_by
